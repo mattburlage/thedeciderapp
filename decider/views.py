@@ -105,7 +105,7 @@ def delete_item(request, item_id):
     code = item.campaign.code
 
     if item.campaign.owner == request.user:
-        item.archived = True
+        item.archived = not item.archived
         item.save()
 
     return redirect('campaign', campaign_code=code)

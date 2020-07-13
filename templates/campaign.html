@@ -65,9 +65,15 @@
                                     {{ item.campaign.no_vote }}
                                 </a>
                                 {% if add_form %}
-                                    <a href="{% url 'delete_item' item_id=item.id %}" class="btn btn-block btn-outline-warning">
-                                        <i class="fas fa-trash"></i> Archive Item
-                                    </a>
+                                    {% if item.archived %}
+                                        <a href="{% url 'delete_item' item_id=item.id %}" class="btn btn-block btn-outline-warning">
+                                            <i class="fas fa-trash"></i> Un-Archive Item
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'delete_item' item_id=item.id %}" class="btn btn-block btn-outline-warning">
+                                            <i class="fas fa-trash"></i> Archive Item
+                                        </a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
