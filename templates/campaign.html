@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load get_vote %}
+
+
+{% block head %}
+{% endblock %}
+
+{% block main %}
+    {% if add_form %}
+        <form action="{% url 'add' camp_id=campaign.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Item to Campaign</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{ add_form|crispy }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-outline-danger" data-dismiss="modal">cancel</button>
+                            <button type="submit" class="btn btn-success">Save item</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+
+    <div class="container mt-3">
+        <div class="row text-center mb-2">
+            <div class="col-12">
+                <div class="h3">
+                    Campaign: {{ campaign.name }}
+                </div>
+            </div>
+            <div class="col-12 text-center">
+                {% if add_form %}
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
+                        <i class="fas fa-plus"></i>&nbsp;Add Item
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row text-center">
+            {% for item in pending %}
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                    <div class="card">
+                        {% if item.file %}
+                            <img src="{{ item.file.url }}" class="card-img-top" alt="{{ item.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.text }}</p>
+                            <a href="{% url 'vote' item_id=item.id vote_val='yes' %}" class="btn btn-block btn-success">
+                                {{ item.campaign.yes_vote }}
+                            </a>
+                            <a href="{% url 'vote' item_id=item.id vote_val='no' %}" class="btn btn-block btn-danger">
+                                {{ item.campaign.no_vote }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if voted %}
+            <div class="collapse completed_items show" id="completed_items">
+                <div class="row text-center">
+                    <div class="col-12">
+                        Completed Items
+                        <br>
+                        <a class="small text-muted" data-toggle="collapse" href="#completed_items">
+                            Show/Hide
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="collapse completed_items" id="completed_items">
+                <div class="row text-center">
+                    <div class="col-12 mb-2">
+                        Completed Items
+                        <br>
+                        <a class="small text-muted" data-toggle="collapse" href="#completed_items">
+                            Show/Hide
+                        </a>
+                    </div>
+                    {% for item in voted %}
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                            <div class="card">
+                                <img src="{{ item.file.url }}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.name }}</h5>
+                                    <p class="card-text">{{ item.text }}</p>
+                                    {% if item|get_vote:request.user %}
+                                        <a href="{% url 'vote' item_id=item.id vote_val='yes' %}" class="btn btn-block btn-success">
+                                            {{ item.campaign.yes_vote }}
+                                        </a>
+                                        <a href="{% url 'vote' item_id=item.id vote_val='no' %}" class="btn btn-block btn-outline-danger">
+                                            {{ item.campaign.no_vote }}
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'vote' item_id=item.id vote_val='yes' %}" class="btn btn-block btn-outline-success">
+                                            {{ item.campaign.yes_vote }}
+                                        </a>
+                                        <a href="{% url 'vote' item_id=item.id vote_val='no' %}" class="btn btn-block btn-danger">
+                                            {{ item.campaign.no_vote }}
+                                        </a>
+                                    {% endif %}
+
+                                    <a href="{% url 'clear_vote' item_id=item.id %}" class="btn btn-block btn-outline-secondary">
+                                        Clear Vote
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

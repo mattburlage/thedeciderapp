@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block main %}
+    <div class="container mt-3">
+        <div class="row text-center ">
+            <div class="col-12">
+                <div class="h3">
+                    Choose a campaign
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 offset-lg-3">
+                {% if campaigns %}
+                    <div class="list-group">
+                    {% for campaign in campaigns %}
+                        <a href="{% url 'campaign' campaign_code=campaign.code %}" class="list-group-item list-group-item-action">
+                        {{ campaign.name }}
+                        </a>
+                    {% endfor %}
+                    </div>
+                {% else %}
+                    <ul class="list-group">
+                        <li class="list-group-item disabled" aria-disabled="true">No Campaigns Available</li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

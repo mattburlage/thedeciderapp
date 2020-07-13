@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="shortcut icon" href="https://msb.dev/static/favicon.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="https://www.nertzboard.com/static/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.nertzboard.com/static/favicon.png">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <!-- Metadata -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- favicon -->
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>The Decider App</title>
+
+    <style>
+
+        label {
+            font-weight: bold;
+        }
+
+    </style>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+{% include 'nav.html' %}
+
+{% block main %}
+{% endblock %}
+
+
+{% block codefooter %}
+{% endblock %}
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+
+{% block afterbs %}
+{% endblock %}
+
+
+<!-- bottom padding -->
+<div class="container mb-5 d-print-none">&nbsp</div>
+
+</body></html>
