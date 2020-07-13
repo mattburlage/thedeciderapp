@@ -44,6 +44,9 @@
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
                         <i class="fas fa-plus"></i>&nbsp;Add Item
                     </button>
+                    <a href="{% url 'view_votes' campaign_code=campaign.code %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-poll"></i>&nbsp;View Votes
+                    </a>
                 {% endif %}
             </div>
         </div>
@@ -105,7 +108,9 @@
                     {% for item in voted %}
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="card mb-2">
-                                <img src="{{ item.file.url }}" class="card-img-top" alt="...">
+                                {% if item.file %}
+                                    <img src="{{ item.file.url }}" class="card-img-top" alt="{{ item.name }}">
+                                {% endif %}
                                 <div class="card-body">
                                     <h5 class="card-title">{{ item.name }}</h5>
                                     <p class="card-text">{{ item.text }}</p>

@@ -17,7 +17,7 @@ def index(request):
 
 
 @login_required
-def campaign(request, campaign_code):
+def campaign(request, campaign_code, view_votes=False):
     camp = Campaign.objects.get(code=campaign_code)
 
     if request.GET.get('archived', False):
@@ -29,26 +29,44 @@ def campaign(request, campaign_code):
     if request.user not in camp.all_users:
         raise Http404
 
-    pending = []
-    voted = []
-
-    for item in items:
-        if item.votes.filter(user=request.user):
-            voted.append(item)
-        else:
-            pending.append(item)
-
     add_form = None
     if request.user == camp.owner:
         add_form = AddItemForm()
 
-    context = {
-        'campaign': camp,
-        'pending': pending,
-        'voted': voted,
-        'add_form': add_form,
-    }
-    return render(request, 'campaign.html', context)
+    if view_votes:
+
+        context = {
+            'items': items,
+            'campaign': camp,
+            'add_form': add_form,
+        }
+
+        return render(request, 'viewvotes.html', context)
+
+    else:
+
+        pending = []
+        voted = []
+
+        for item in items:
+            if item.votes.filter(user=request.user):
+                voted.append(item)
+            else:
+                pending.append(item)
+
+        context = {
+            'campaign': camp,
+            'pending': pending,
+            'voted': voted,
+            'add_form': add_form,
+        }
+
+        return render(request, 'campaign.html', context)
+
+
+@login_required
+def view_votes(request, campaign_code):
+    return campaign(request, campaign_code, True)
 
 
 @login_required
