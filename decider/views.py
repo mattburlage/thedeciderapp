@@ -11,7 +11,7 @@ from decider.utils import get_item
 def index(request):
 
     context = {
-        'campaigns': request.user.campaigns.all() | request.user.owned_campaigns.all()
+        'campaigns': (request.user.campaigns.all() | request.user.owned_campaigns.all()).distinct()
     }
     return render(request, 'index.html', context)
 
