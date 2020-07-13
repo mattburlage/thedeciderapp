@@ -93,7 +93,7 @@ def add_item(request, camp_id):
 
 @login_required
 def clear_vote(request, item_id):
-    item = get_item(item_id, archived=True)
+    item = get_item(item_id)
 
     Vote.objects.filter(user=request.user, item=item).delete()
 
@@ -101,7 +101,7 @@ def clear_vote(request, item_id):
 
 
 def delete_item(request, item_id):
-    item = get_item(item_id)
+    item = get_item(item_id, archived=True)
     code = item.campaign.code
 
     if item.campaign.owner == request.user:
