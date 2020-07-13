@@ -19,11 +19,15 @@ def index(request):
 @login_required
 def campaign(request, campaign_code):
     camp = Campaign.objects.get(code=campaign_code)
-    items = Item.objects.filter(archived=False, campaign=camp)
+
+    if request.GET.get('archived', False):
+        items = Item.objects.filter(campaign=camp)
+    else:
+        items = Item.objects.filter(archived=False, campaign=camp)
 
     # make sure vote is valid
     if request.user not in camp.all_users:
-        pass
+        raise Http404
 
     pending = []
     voted = []
