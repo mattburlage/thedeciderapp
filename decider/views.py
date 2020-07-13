@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.shortcuts import render, redirect
 
 from decider.forms import AddItemForm, AddItemFormSave
 from decider.models import Item, Campaign, Vote
+from decider.utils import get_item
 
 
 @login_required
@@ -17,7 +19,7 @@ def index(request):
 @login_required
 def campaign(request, campaign_code):
     camp = Campaign.objects.get(code=campaign_code)
-    items = Item.objects.filter(campaign=camp)
+    items = Item.objects.filter(archived=False, campaign=camp)
 
     # make sure vote is valid
     if request.user not in camp.all_users:
@@ -47,11 +49,11 @@ def campaign(request, campaign_code):
 
 @login_required
 def vote(request, item_id, vote_val):
-    item = Item.objects.get(id=item_id)
+    item = get_item(item_id)
 
     # make sure vote is valid
-    if request.user not in item.campaign.subscribers.all():
-        pass
+    if item.archived or request.user not in item.campaign.subscribers.all():
+        raise Http404
 
     # discard any old votes
     for cur_vote in Vote.objects.filter(user=request.user, item=item):
@@ -70,9 +72,12 @@ def vote(request, item_id, vote_val):
 def add_item(request, camp_id):
     camp = Campaign.objects.get(pk=camp_id)
 
+    if request.user != camp.owner:
+        raise Http404
+
     data = request.POST.copy()
 
-    data['campaign'] = camp_id
+    data['campaign'] = camp.id
 
     form = AddItemFormSave(data, request.FILES)
 
@@ -84,7 +89,7 @@ def add_item(request, camp_id):
 
 @login_required
 def clear_vote(request, item_id):
-    item = Item.objects.get(pk=item_id)
+    item = get_item(item_id)
 
     Vote.objects.filter(user=request.user, item=item).delete()
 
@@ -92,10 +97,11 @@ def clear_vote(request, item_id):
 
 
 def delete_item(request, item_id):
-    item = Item.objects.get(pk=item_id)
+    item = get_item(item_id)
     code = item.campaign.code
 
     if item.campaign.owner == request.user:
-        item.delete()
+        item.archived = True
+        item.save()
 
     return redirect('campaign', campaign_code=code)
