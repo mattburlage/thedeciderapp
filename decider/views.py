@@ -93,7 +93,7 @@ def add_item(request, camp_id):
 
 @login_required
 def clear_vote(request, item_id):
-    item = get_item(item_id)
+    item = get_item(item_id, archived=True)
 
     Vote.objects.filter(user=request.user, item=item).delete()
 
