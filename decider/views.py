@@ -118,12 +118,18 @@ def clear_vote(request, item_id):
     return redirect('campaign', campaign_code=item.campaign.code)
 
 
-def delete_item(request, item_id):
+def delete_item(request, item_id, vc=False):
     item = get_item(item_id, archived=True)
     code = item.campaign.code
 
     if item.campaign.owner == request.user:
         item.archived = not item.archived
         item.save()
+    if vc:
+        return redirect('view_votes', campaign_code=code)
+    else:
+        return redirect('campaign', campaign_code=code)
 
-    return redirect('campaign', campaign_code=code)
+
+def delete_item_vc(request, item_id):
+    return delete_item(request, item_id, vc=True)

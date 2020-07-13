@@ -73,15 +73,15 @@
                                     {{ item|get_vote_percent:False }}%
                                 </div>
                             </div>
-                            {#                            {% if item.archived %}#}
-                            {#                                <a href="{% url 'delete_item' item_id=item.id %}" class="btn btn-block btn-outline-warning">#}
-                            {#                                    <i class="fas fa-trash"></i> Un-Archive Item#}
-                            {#                                </a>#}
-                            {#                            {% else %}#}
-                            {#                                <a href="{% url 'delete_item' item_id=item.id %}" class="btn btn-block btn-outline-warning">#}
-                            {#                                    <i class="fas fa-trash"></i> Archive Item#}
-                            {#                                </a>#}
-                            {#                            {% endif %}#}
+                            {% if item.archived %}
+                                <a href="{% url 'delete_item_vc' item_id=item.id %}" class="btn btn-block btn-outline-warning">
+                                    <i class="fas fa-trash"></i> Un-Archive Item
+                                </a>
+                            {% else %}
+                                <a href="{% url 'delete_item_vc' item_id=item.id %}" class="btn btn-block btn-outline-warning">
+                                    <i class="fas fa-trash"></i> Archive Item
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
