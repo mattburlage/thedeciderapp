@@ -26,6 +26,8 @@ class Item(models.Model):
     file = models.FileField(upload_to="vote-images/", null=True, blank=True)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
 
+    archived = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.name} ({self.campaign})"
 
@@ -36,7 +38,5 @@ class Vote(models.Model):
     vote = models.NullBooleanField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
 
-
-# Home Page:
-# - Shows subscribed campaigns
-# - New campaign button
+    def __str__(self):
+        return f"{self.item} - {self.user} - {'Yes' if self.vote else 'No'}"

@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.urls import reverse
 
 from decider.forms import AddItemForm, AddItemFormSave
 from decider.models import Item, Campaign, Vote
@@ -90,3 +89,13 @@ def clear_vote(request, item_id):
     Vote.objects.filter(user=request.user, item=item).delete()
 
     return redirect('campaign', campaign_code=item.campaign.code)
+
+
+def delete_item(request, item_id):
+    item = Item.objects.get(pk=item_id)
+    code = item.campaign.code
+
+    if item.campaign.owner == request.user:
+        item.delete()
+
+    return redirect('campaign', campaign_code=code)
