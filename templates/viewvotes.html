@@ -67,9 +67,9 @@
                                     {{ item|get_vote_percent:True }}%
                                 </div>
                             </div>
-                            <label>{{ item.campaign.yes_vote }}: {{ item|get_vote_count:False }}</label>
+                            <label>{{ item.campaign.no_vote }}: {{ item|get_vote_count:False }}</label>
                             <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ item|get_vote_percent:False }}%;">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ item|get_vote_percent:False }}%;">
                                     {{ item|get_vote_percent:False }}%
                                 </div>
                             </div>
